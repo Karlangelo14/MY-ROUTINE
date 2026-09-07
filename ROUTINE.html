@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Routine Tracker</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f7f2fa;
+    color: #302438;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, #6c3f91, #9270b4);
+    color: white;
+    padding: 35px 20px;
+    text-align: center;
+    border-radius: 0 0 30px 30px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    opacity: .9;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* MOTIVATION */
+.motivation {
+    background: #eee3f5;
+    border-left: 5px solid #6c3f91;
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.motivation h3 {
+    color: #6c3f91;
+    margin-bottom: 7px;
+}
+
+/* DASHBOARD */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.stat .number {
+    font-size: 27px;
+    font-weight: bold;
+    color: #6c3f91;
+}
+
+.stat p {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* DAY NAVIGATION */
+.day-navigation {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.day-button {
+    min-width: 90px;
+    padding: 12px 10px;
+    border: none;
+    border-radius: 14px;
+    background: #e8dcef;
+    color: #573477;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.day-button.active {
+    background: #6c3f91;
+    color: white;
+}
+
+/* DAY TITLE */
+.day-title {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.day-title h2 {
+    color: #6c3f91;
+}
+
+/* PROGRESS */
+.progress-box {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 13px;
+    background: #eee5f2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #7b4ca5;
+    transition: .4s;
+}
+
+/* ROUTINE */
+.routine-card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.routine-card input {
+    width: 22px;
+    height: 22px;
+    accent-color: #6c3f91;
+    cursor: pointer;
+}
+
+.time {
+    color: #6c3f91;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.activity {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.completed .activity {
+    text-decoration: line-through;
+    opacity: .45;
+}
+
+/* WEEKLY REPORT */
+.weekly-report {
+    background: white;
+    padding: 25px;
+    border-radius: 22px;
+    margin-top: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.06);
+}
+
+.weekly-report h2 {
+    color: #6c3f91;
+    margin-bottom: 20px;
+}
+
+.week-row {
+    margin-bottom: 15px;
+}
+
+.week-row-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.small-progress {
+    height: 9px;
+    background: #eee5f2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.small-fill {
+    height: 100%;
+    background: #9a73b9;
+}
+
+.previous-week {
+    background: #f7f2fa;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 18px;
+    color: #573477;
+    line-height: 1.6;
+}
+
+/* BUTTON */
+.reset-button {
+    width: 100%;
+    border: none;
+    background: #6c3f91;
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.reset-button:hover {
+    background: #543071;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #806c8d;
+}
+
+/* MOBILE */
+@media(max-width: 600px) {
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .stat {
+        padding: 13px 5px;
+    }
+
+    .stat .number {
+        font-size: 22px;
+    }
+
+    .stat p {
+        font-size: 11px;
+    }
+
+    .routine-card {
+        padding: 16px;
+    }
+
+    .activity {
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>My Routine Tracker</h1>
+    <p>Discipline • Consistency • Growth • Faith</p>
+</header>
+
+<div class="container">
+
+    <!-- MOTIVATION -->
+    <div class="motivation">
+        <h3 id="motivationTitle">Keep Going! 💜</h3>
+        <p id="motivationMessage">
+            Small progress every day becomes a big change over time.
+        </p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+
+        <div class="stat">
+            <div class="number" id="dailyPercentage">0%</div>
+            <p>Today's Progress</p>
+        </div>
+
+        <div class="stat">
+            <div class="number" id="weeklyPercentage">0%</div>
+            <p>Weekly Progress</p>
+        </div>
+
+        <div class="stat">
+            <div class="number" id="streak">0 🔥</div>
+            <p>Day Streak</p>
+        </div>
+
+    </div>
+
+    <!-- DAYS -->
+    <div class="day-navigation">
+
+        <button class="day-button" onclick="selectDay('Monday')">
+            MON
+        </button>
+
+        <button class="day-button" onclick="selectDay('Tuesday')">
+            TUE
+        </button>
+
+        <button class="day-button" onclick="selectDay('Wednesday')">
+            WED
+        </button>
+
+        <button class="day-button" onclick="selectDay('Thursday')">
+            THU
+        </button>
+
+        <button class="day-button" onclick="selectDay('Friday')">
+            FRI
+        </button>
+
+        <button class="day-button" onclick="selectDay('Saturday')">
+            SAT
+        </button>
+
+        <button class="day-button" onclick="selectDay('Sunday')">
+            SUN
+        </button>
+
+    </div>
+
+    <!-- DAY TITLE -->
+    <div class="day-title">
+        <h2 id="selectedDayTitle">Monday Routine</h2>
+    </div>
+
+    <!-- DAILY PROGRESS -->
+    <div class="progress-box">
+
+        <div class="progress-top">
+            <span>Daily Progress</span>
+            <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+    </div>
+
+    <!-- ROUTINE -->
+    <div id="routineContainer"></div>
+
+    <!-- WEEKLY REPORT -->
+    <div class="weekly-report">
+
+        <h2>📊 Weekly Progress</h2>
+
+        <div id="weeklyStatus"
+             class="motivation"
+             style="margin-bottom:18px;">
+        </div>
+
+        <div id="previousWeek"
+             class="previous-week">
+        </div>
+
+        <div id="weeklyReport"></div>
+
+        <div class="progress-box"
+             style="margin-top:20px; margin-bottom:0;">
+
+            <div class="progress-top">
+                <span>Overall Weekly Progress</span>
+                <span id="overallPercentage">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"
+                     id="overallFill">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="reset-button" onclick="resetWeek()">
+        Reset This Week
+    </button>
+
+</div>
+
+<footer>
+    Believe in yourself. Stay consistent. Keep growing. 💜
+</footer>
+
+
+<script>
+
+const routines = {
+
+    Monday: [
+        ["5:00 AM – 8:00 AM",
+        "Pray, Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["8:00 AM – 11:00 AM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 AM – 12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 2:00 PM",
+        "Exercise"],
+
+        ["3:00 PM – 5:00 PM",
+        "Explore, Socialize, Practice Speaking"],
+
+        ["6:00 PM – 7:00 PM",
+        "Break, Relax"],
+
+        ["8:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Bebetime, Pray, Relax, Sleep"]
+    ],
+
+    Tuesday: [
+        ["5:00 AM – 8:00 AM",
+        "Pray, Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["8:00 AM – 11:00 AM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 AM – 12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 2:00 PM",
+        "Exercise"],
+
+        ["3:00 PM – 5:00 PM",
+        "Explore, Socialize, Practice Speaking"],
+
+        ["6:00 PM – 7:00 PM",
+        "Break, Relax"],
+
+        ["8:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Bebetime, Pray, Relax, Sleep"]
+    ],
+
+    Wednesday: [
+        ["5:00 AM – 8:00 AM",
+        "Pray, Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["8:00 AM – 11:00 AM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 AM – 12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 2:00 PM",
+        "Exercise"],
+
+        ["3:00 PM – 5:00 PM",
+        "Explore, Socialize, Practice Speaking"],
+
+        ["6:00 PM – 7:00 PM",
+        "Break, Relax"],
+
+        ["8:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Bebetime, Pray, Relax, Sleep"]
+    ],
+
+    Thursday: [
+        ["5:00 AM – 8:00 AM",
+        "Pray, Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["8:00 AM – 11:00 AM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 AM – 12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 2:00 PM",
+        "Exercise"],
+
+        ["3:00 PM – 5:00 PM",
+        "Explore, Socialize, Practice Speaking"],
+
+        ["6:00 PM – 7:00 PM",
+        "Break, Relax"],
+
+        ["8:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Bebetime, Pray, Relax, Sleep"]
+    ],
+
+    Friday: [
+        ["5:00 AM – 8:00 AM",
+        "Pray, Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["8:00 AM – 11:00 AM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 AM – 12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 2:00 PM",
+        "Exercise"],
+
+        ["3:00 PM – 5:00 PM",
+        "Explore, Socialize, Practice Speaking"],
+
+        ["6:00 PM – 7:00 PM",
+        "Break, Relax"],
+
+        ["8:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Bebetime, Pray, Relax, Sleep"]
+    ],
+
+    Saturday: [
+        ["4:00 AM – 7:00 AM",
+        "Pray, Exercise Stamina, Relax"],
+
+        ["8:00 AM – 11:00 AM",
+        "Cleaning, Checking Messages, Proper Hygiene"],
+
+        ["12:00 PM",
+        "Break, Relax"],
+
+        ["1:00 PM – 5:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["6:00 PM – 10:00 PM",
+        "Break, Family, Bebetime, Friends"],
+
+        ["11:00 PM – 12:00 AM",
+        "Pray, Relax, Sleep"]
+    ],
+
+    Sunday: [
+        ["4:00 AM – 7:00 AM",
+        "Pray, Exercise Stamina, Relax"],
+
+        ["8:00 AM – 12:00 PM",
+        "Church, Family, Bebetime"],
+
+        ["1:00 PM – 5:00 PM",
+        "Explore, Socialize, Friends"],
+
+        ["6:00 PM – 10:00 PM",
+        "School Works, Study About Business, Grind Making Money"],
+
+        ["11:00 PM – 12:00 AM",
+        "Pray, Relax, Sleep"]
+    ]
+
+};
+
+
+const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+];
+
+let selectedDay = getToday();
+
+
+/* GET MONDAY OF CURRENT WEEK */
+
+function getMonday(date = new Date()) {
+
+    const d = new Date(date);
+
+    d.setHours(0, 0, 0, 0);
+
+    const day = d.getDay();
+
+    const diff = day === 0 ? -6 : 1 - day;
+
+    d.setDate(d.getDate() + diff);
+
+    return d;
+}
+
+
+/* GET WEEK KEY */
+
+function getWeekKey(date = new Date()) {
+
+    const monday = getMonday(date);
+
+    const year = monday.getFullYear();
+
+    const month = String(
+        monday.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        monday.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+const currentWeekKey = getWeekKey();
+
+
+/* LOAD SAVED PROGRESS */
+
+let progress = JSON.parse(
+    localStorage.getItem(
+        "routineProgress_" + currentWeekKey
+    ) || "{}"
+);
+
+
+let archivedWeeks = JSON.parse(
+    localStorage.getItem(
+        "routineArchivedWeeks"
+    ) || "[]"
+);
+
+
+/* GET TODAY */
+
+function getToday() {
+
+    const day = new Date().getDay();
+
+    return day === 0
+        ? "Sunday"
+        : days[day - 1];
+}
+
+
+/* SAVE PROGRESS */
+
+function saveProgress() {
+
+    localStorage.setItem(
+        "routineProgress_" + currentWeekKey,
+        JSON.stringify(progress)
+    );
+}
+
+
+/* DAILY PERCENTAGE */
+
+function getDailyPercentage(day) {
+
+    const total = routines[day].length;
+
+    const completed =
+        (progress[day] || [])
+        .filter(Boolean)
+        .length;
+
+    return Math.round(
+        (completed / total) * 100
+    );
+}
+
+
+/* WEEKLY PERCENTAGE */
+
+function getWeeklyPercentage() {
+
+    let total = 0;
+    let completed = 0;
+
+    days.forEach(day => {
+
+        total += routines[day].length;
+
+        completed +=
+            (progress[day] || [])
+            .filter(Boolean)
+            .length;
+
+    });
+
+    return total
+        ? Math.round(
+            (completed / total) * 100
+          )
+        : 0;
+}
+
+
+/* SELECT DAY */
+
+function selectDay(day) {
+
+    selectedDay = day;
+
+    document
+        .querySelectorAll(".day-button")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.day === day
+            );
+
+        });
+
+    document.getElementById(
+        "selectedDayTitle"
+    ).textContent = day + " Routine";
+
+    renderRoutine();
+
+    updateAll();
+}
+
+
+/* RENDER ROUTINE */
+
+function renderRoutine() {
+
+    const container =
+        document.getElementById(
+            "routineContainer"
+        );
+
+    container.innerHTML = "";
+
+
+    routines[selectedDay].forEach(
+        (item, index) => {
+
+            const checked =
+                Boolean(
+                    progress[selectedDay]?.[index]
+                );
+
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "routine-card" +
+                (checked
+                    ? " completed"
+                    : "");
+
+
+            const checkbox =
+                document.createElement("input");
+
+            checkbox.type = "checkbox";
+
+            checkbox.checked = checked;
+
+            checkbox.setAttribute(
+                "aria-label",
+                "Complete " + item[1]
+            );
+
+
+            checkbox.addEventListener(
+                "change",
+                () => toggleTask(index)
+            );
+
+
+            const content =
+                document.createElement("div");
+
+
+            const time =
+                document.createElement("div");
+
+            time.className = "time";
+
+            time.textContent = item[0];
+
+
+            const activity =
+                document.createElement("div");
+
+            activity.className = "activity";
+
+            activity.textContent = item[1];
+
+
+            content.appendChild(time);
+
+            content.appendChild(activity);
+
+            card.appendChild(checkbox);
+
+            card.appendChild(content);
+
+            container.appendChild(card);
+
+        }
+    );
+}
+
+
+/* TOGGLE TASK */
+
+function toggleTask(index) {
+
+    if (!progress[selectedDay]) {
+
+        progress[selectedDay] = [];
+
+    }
+
+    progress[selectedDay][index] =
+        !progress[selectedDay][index];
+
+    saveProgress();
+
+    renderRoutine();
+
+    updateAll();
+}
+
+
+/* DAILY PROGRESS */
+
+function updateDailyProgress() {
+
+    const percentage =
+        getDailyPercentage(
+            selectedDay
+        );
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        percentage + "%";
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percentage + "%";
+
+    document.getElementById(
+        "dailyPercentage"
+    ).textContent =
+        percentage + "%";
+}
+
+
+/* WEEKLY PROGRESS */
+
+function updateWeeklyProgress() {
+
+    const percentage =
+        getWeeklyPercentage();
+
+
+    document.getElementById(
+        "weeklyPercentage"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "overallPercentage"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "overallFill"
+    ).style.width =
+        percentage + "%";
+
+
+    const report =
+        document.getElementById(
+            "weeklyReport"
+        );
+
+    report.innerHTML = "";
+
+
+    days.forEach(day => {
+
+        const percent =
+            getDailyPercentage(day);
+
+
+        const row =
+            document.createElement("div");
+
+        row.className = "week-row";
+
+
+        row.innerHTML = `
+
+            <div class="week-row-top">
+
+                <span>${day}</span>
+
+                <strong>${percent}%</strong>
+
+            </div>
+
+
+            <div class="small-progress">
+
+                <div
+                    class="small-fill"
+                    style="width:${percent}%">
+                </div>
+
+            </div>
+
+        `;
+
+
+        report.appendChild(row);
+
+    });
+
+
+    updateWeeklyStatus(
+        percentage
+    );
+}
+
+
+/* WEEKLY STATUS */
+
+function updateWeeklyStatus(
+    percentage
+) {
+
+    const status =
+        document.getElementById(
+            "weeklyStatus"
+        );
+
+
+    if (percentage >= 90) {
+
+        status.textContent =
+            "🏆 Excellent! You were extremely consistent this week.";
+
+    }
+
+    else if (percentage >= 75) {
+
+        status.textContent =
+            "🔥 Great week! Keep this momentum going.";
+
+    }
+
+    else if (percentage >= 50) {
+
+        status.textContent =
+            "💜 Good effort. You can make next week even stronger.";
+
+    }
+
+    else if (percentage > 0) {
+
+        status.textContent =
+            "🌱 This week wasn't perfect—and that's okay. Start again next week.";
+
+    }
+
+    else {
+
+        status.textContent =
+            "❤️ A missed week does not define you. Your next decision can be a fresh start.";
+
+    }
+}
+
+
+/* MOTIVATION */
+
+function updateMotivation() {
+
+    const percentage =
+        getDailyPercentage(
+            selectedDay
+        );
+
+
+    const title =
+        document.getElementById(
+            "motivationTitle"
+        );
+
+
+    const message =
+        document.getElementById(
+            "motivationMessage"
+        );
+
+
+    if (percentage === 100) {
+
+        title.textContent =
+            "🔥 PERFECT DAY!";
+
+        message.textContent =
+            "You completed everything. Be proud of yourself—consistency is built one day at a time.";
+
+    }
+
+    else if (percentage >= 75) {
+
+        title.textContent =
+            "💜 Almost There!";
+
+        message.textContent =
+            "You're doing really well. Finish the remaining tasks if you can.";
+
+    }
+
+    else if (percentage >= 50) {
+
+        title.textContent =
+            "💪 Keep Going!";
+
+        message.textContent =
+            "You're already halfway there. Don't let a slow start stop the rest of your day.";
+
+    }
+
+    else if (percentage > 0) {
+
+        title.textContent =
+            "🌱 One Step at a Time";
+
+        message.textContent =
+            "You don't need a perfect day. Just complete the next task.";
+
+    }
+
+    else {
+
+        title.textContent =
+            "❤️ Start Again";
+
+        message.textContent =
+            "If your routine isn't consistent today, don't beat yourself up. Start with ONE small task. Tomorrow is another chance.";
+
+    }
+}
+
+
+/* STREAK */
+
+function updateStreak() {
+
+    let streak = 0;
+
+    const todayIndex =
+        days.indexOf(
+            getToday()
+        );
+
+
+    for (
+        let i = todayIndex;
+        i >= 0;
+        i--
+    ) {
+
+        if (
+            getDailyPercentage(
+                days[i]
+            ) >= 70
+        ) {
+
+            streak++;
+
+        }
+
+        else {
+
+            break;
+
+        }
+    }
+
+
+    document.getElementById(
+        "streak"
+    ).textContent =
+        streak + " 🔥";
+}
+
+
+/* UPDATE EVERYTHING */
+
+function updateAll() {
+
+    updateDailyProgress();
+
+    updateWeeklyProgress();
+
+    updateMotivation();
+
+    updateStreak();
+}
+
+
+/* ARCHIVE COMPLETED WEEK */
+
+function archiveCompletedWeek() {
+
+    const previousWeekKey =
+        localStorage.getItem(
+            "lastRoutineWeek"
+        );
+
+
+    if (
+        previousWeekKey &&
+        previousWeekKey !== currentWeekKey
+    ) {
+
+        const previousProgress =
+            JSON.parse(
+                localStorage.getItem(
+                    "routineProgress_" +
+                    previousWeekKey
+                ) || "{}"
+            );
+
+
+        let total = 0;
+
+        let completed = 0;
+
+
+        days.forEach(day => {
+
+            total += routines[day].length;
+
+            completed +=
+                (
+                    previousProgress[day] || []
+                )
+                .filter(Boolean)
+                .length;
+
+        });
+
+
+        const percentage =
+            total
+                ? Math.round(
+                    (completed / total) * 100
+                  )
+                : 0;
+
+
+        archivedWeeks.unshift({
+
+            week: previousWeekKey,
+
+            percentage: percentage
+
+        });
+
+
+        archivedWeeks =
+            archivedWeeks.slice(0, 12);
+
+
+        localStorage.setItem(
+            "routineArchivedWeeks",
+            JSON.stringify(
+                archivedWeeks
+            )
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "lastRoutineWeek",
+        currentWeekKey
+    );
+}
+
+
+/* SHOW PREVIOUS WEEK */
+
+function showPreviousWeek() {
+
+    const panel =
+        document.getElementById(
+            "previousWeek"
+        );
+
+
+    const last =
+        archivedWeeks[0];
+
+
+    if (!last) {
+
+        panel.textContent =
+            "Your first completed week will appear here. Keep going! 💜";
+
+        return;
+    }
+
+
+    panel.innerHTML = `
+
+        <strong>
+            Last completed week:
+            ${last.percentage}%
+        </strong>
+
+        <br>
+
+        ${
+            last.percentage >= 75
+
+            ? "🔥 Great consistency! Try to beat your score next week."
+
+            : "🌱 Don't worry if it was low. Your next week is a fresh start."
+        }
+
+    `;
+}
+
+
+/* RESET WEEK */
+
+function resetWeek() {
+
+    if (
+        !confirm(
+            "Are you sure you want to reset this week's progress?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    progress = {};
+
+    saveProgress();
+
+    renderRoutine();
+
+    updateAll();
+}
+
+
+/* INITIALIZE */
+
+function initialize() {
+
+    archiveCompletedWeek();
+
+
+    /* Automatically detect a new week/day */
+
+    setInterval(() => {
+
+        const newWeekKey =
+            getWeekKey();
+
+        const newToday =
+            getToday();
+
+
+        if (
+            newWeekKey !==
+            currentWeekKey
+        ) {
+
+            window.location.reload();
+
+            return;
+        }
+
+
+        if (
+            newToday !==
+            selectedDay
+        ) {
+
+            selectDay(newToday);
+
+        }
+
+    }, 30000);
+
+
+    /* Build reliable day buttons */
+
+    document
+        .querySelectorAll(".day-button")
+        .forEach(button => {
+
+            const map = {
+
+                mon: "Monday",
+
+                tue: "Tuesday",
+
+                wed: "Wednesday",
+
+                thu: "Thursday",
+
+                fri: "Friday",
+
+                sat: "Saturday",
+
+                sun: "Sunday"
+
+            };
+
+
+            button.dataset.day =
+                map[
+                    button.textContent
+                        .trim()
+                        .toLowerCase()
+                ];
+
+        });
+
+
+    selectDay(
+        selectedDay
+    );
+
+
+    showPreviousWeek();
+}
+
+
+/* START */
+
+initialize();
+
+</script>
+
+</body>
+</html>
